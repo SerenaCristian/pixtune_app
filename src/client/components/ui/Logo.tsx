@@ -15,15 +15,15 @@ export function Logo({
   className,
   ...props
 }: LogoProps) {
-  // Se showText for false, usa variante de ícone compacto; caso contrário usa variant ou 'full'
   const effectiveVariant = variant || (showText === false ? 'icon' : 'full')
-  // Configuração de tamanhos responsivos e nítidos
+
+  // Tamanhos proporcionais compensando a margem transparente da imagem 1:1 original
   const sizeConfig = {
-    sm: { height: 'h-8 sm:h-9', maxW: 'max-w-[140px]' },
-    md: { height: 'h-10 sm:h-12', maxW: 'max-w-[180px]' },
-    lg: { height: 'h-14 sm:h-16', maxW: 'max-w-[240px]' },
-    xl: { height: 'h-20 sm:h-24', maxW: 'max-w-[320px]' },
-    '2xl': { height: 'h-28 sm:h-36', maxW: 'max-w-[420px]' },
+    sm: { full: 'w-32 h-10 sm:w-36 sm:h-11', icon: 'w-10 h-10' },
+    md: { full: 'w-40 h-12 sm:w-44 sm:h-14', icon: 'w-11 h-11' },
+    lg: { full: 'w-48 h-14 sm:w-56 sm:h-16', icon: 'w-12 h-12' },
+    xl: { full: 'w-60 h-18 sm:w-72 sm:h-22', icon: 'w-14 h-14' },
+    '2xl': { full: 'w-64 h-20 sm:w-80 sm:h-24', icon: 'w-16 h-16' },
   }[size]
 
   return (
@@ -33,17 +33,20 @@ export function Logo({
     >
       <div
         className={cn(
-          'relative flex items-center justify-center transition-all duration-300 hover:brightness-110',
-          sizeConfig.height,
-          effectiveVariant === 'icon' ? 'aspect-square overflow-hidden rounded-xl' : sizeConfig.maxW
+          'relative flex items-center justify-center overflow-hidden transition-all duration-300 hover:brightness-110',
+          effectiveVariant === 'icon'
+            ? cn(sizeConfig.icon, 'rounded-xl')
+            : sizeConfig.full
         )}
       >
         <img
           src="/logo.png"
           alt="PixTune"
           className={cn(
-            'h-full w-auto object-contain drop-shadow-[0_0_15px_rgba(30,215,96,0.3)]',
-            effectiveVariant === 'icon' && 'w-full h-full object-cover object-left scale-125'
+            'w-full h-full object-cover drop-shadow-[0_0_15px_rgba(30,215,96,0.3)]',
+            effectiveVariant === 'icon'
+              ? 'object-[18%_50%] scale-[2.2]'
+              : 'object-center scale-[1.15]'
           )}
         />
       </div>
